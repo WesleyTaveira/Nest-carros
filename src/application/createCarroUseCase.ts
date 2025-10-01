@@ -1,11 +1,10 @@
-import { ICarroRepository } from "src/domain/contracts/ICarroRepository";
 import { IMarcaRepository } from "src/domain/contracts/IMarcaRepository";
+import { ICarroRepository } from "src/domain/contracts/ICarroRepository";
 import { Carro } from "src/domain/entity/Carro";
-import { carroRepository } from "src/infra/repository/carroRepository";
-import { marcaRepository } from "src/infra/repository/marcaRepository";
 
-export class createCarroUseCase {
-    constructor(private carroRepository: ICarroRepository, private marcaRepository: IMarcaRepository) {}
+
+export class    CreateCarroUseCase {
+    constructor(private readonly CarroRepository: ICarroRepository, private readonly MarcaRepository: IMarcaRepository) {}
 
 
     async execute(carro: Carro) {
@@ -13,18 +12,24 @@ export class createCarroUseCase {
             return console.log("O ano deve ser um número válido entre 1900 e " + (new Date().getFullYear() + 1))
         }
 
-        const CarroMesmaPlaca = await this.carroRepository.find(carro.placa);
+        const CarroMesmaPlaca =  this.CarroRepository.find(carro.id);
 
         if (CarroMesmaPlaca) {
             return console.log("Já existe um carro cadastrado com esta placa.");
         }
 
-        const MarcaExiste = await this.marcaRepository.find(carro.marca);
+        const MarcaExiste =  this.MarcaRepository.find(carro.marca.id);
 
         if (!MarcaExiste) {
             return console.log("Marca não encontrada.");
         }
+
+       
         
+        const novoCarro = this.CarroRepository.create(carro);
+
+        return novoCarro;
+       
         
   }
 }
