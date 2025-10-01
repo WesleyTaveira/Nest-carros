@@ -7,9 +7,13 @@ export class  ListCarroByIdUseCase {
 
 
     async execute(id: number) {
-        const carro = this.CarroRepository.find(id);
+      const carro = this.CarroRepository.find(id);
+
+      if (!carro) {
+          return console.log("Carro não existente!")
+      }
         
-        return console.log(carro);
+    return console.log(carro);
         
   }
 }

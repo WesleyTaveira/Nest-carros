@@ -12,7 +12,9 @@ export class    CreateCarroUseCase {
             return console.log("O ano deve ser um número válido entre 1900 e " + (new Date().getFullYear() + 1))
         }
 
-        const CarroMesmaPlaca =  this.CarroRepository.find(carro.id);
+        
+
+        const CarroMesmaPlaca =  this.CarroRepository.findMesmaPlaca(carro.placa);
 
         if (CarroMesmaPlaca) {
             return console.log("Já existe um carro cadastrado com esta placa.");
