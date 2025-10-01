@@ -2,8 +2,7 @@ import { IMarcaRepository } from "src/domain/contracts/IMarcaRepository";
 import { Marca } from "src/domain/entity/Marca";
 
 
-export class marcaRepository implements IMarcaRepository{
-    constructor(){}
+export class MarcaRepository implements IMarcaRepository{
     listaDemarcas: Marca[] = [
     
 ];
@@ -11,8 +10,8 @@ export class marcaRepository implements IMarcaRepository{
 create(marca: Marca): void {
     this.listaDemarcas = [...this.listaDemarcas, marca];
 }
-find(nome: string): Marca[] {
-    return this.listaDemarcas.filter(item => item.nome === nome);
+find(id: number): Marca[] {
+    return this.listaDemarcas.filter(item => item.id === id);
 }
 
 
