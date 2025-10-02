@@ -4,7 +4,6 @@ import { AppDataSource } from "../database/data-source";
 
 
 export class CarroRepository implements ICarroRepository{
-    listaDeCarros: Carro[] = [];
     CarroRepo = AppDataSource.getRepository(Carro);
 
 create(carro: Carro): void {
@@ -12,7 +11,6 @@ create(carro: Carro): void {
 }
 
 find(carroId: number): Promise<Carro | null> {
-
     return this.CarroRepo.findOneBy({
         id: carroId
     });
@@ -29,16 +27,14 @@ findAll(): Promise<Carro[]> {
 
 }
 
-update(carro: Carro): Carro[] {
-    return this.listaDeCarros.filter(item => item.id === carro.id)
+update(carro: Carro): Promise<Carro | null> {
+    return this.CarroRepo.save(carro);
+
 }
 
-delete(id: number): void {
-    const carroIndex = this.listaDeCarros.findIndex(c => c.id === id);
-
-    if (carroIndex > -1) {
-      this.listaDeCarros.splice(carroIndex, 1);
-    }
+delete(carroId: number): void {
+    this.CarroRepo.delete(carroId);
+    
 }
 
 }

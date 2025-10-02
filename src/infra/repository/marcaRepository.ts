@@ -1,39 +1,38 @@
 import { IMarcaRepository } from "src/domain/contracts/IMarcaRepository";
 import { Marca } from "src/domain/entity/Marca";
+import { AppDataSource } from "../database/data-source";
 
 
 export class MarcaRepository implements IMarcaRepository{
-    listaDemarcas: Marca[] = [
-    
-];
+    MarcaRepo = AppDataSource.getRepository(Marca);
 
 create(marca: Marca): void {
-    this.listaDemarcas = [...this.listaDemarcas, marca];
+    this.MarcaRepo.save(marca);
 }
 
-find(id: number): Marca[] {
-    return this.listaDemarcas.filter(item => item.id === id);
+find(marcaId: number): Promise<Marca | null> {
+     return this.MarcaRepo.findOneBy({
+        id: marcaId
+    });
 }
 
-findMesmoNome(nome: string): Marca[] {
-    return this.listaDemarcas.filter(item => item.nome === nome);
+findMesmoNome(marcaNome: string): Promise<Marca | null> {
+    return this.MarcaRepo.findOneBy({
+        nome: marcaNome
+    });
 }
 
-findAll(): Marca[] {
-    return this.listaDemarcas;
+findAll(): Promise<Marca[]> {
+    return this.MarcaRepo.find({});
 
 }
 
-update(marca: Marca): Marca[] {
-    return this.listaDemarcas.filter(item => item.id === marca.id)
+update(marca: Marca): Promise<Marca | null> {
+    return this.MarcaRepo.save(marca);
 }
 
-delete(id: number): void {
-    const marcaIndex = this.listaDemarcas.findIndex(c => c.id === id);
-
-    if (marcaIndex > -1) {
-      this.listaDemarcas.splice(marcaIndex, 1);
-    }
+delete(marcaId: number): void {
+    this.MarcaRepo.delete(marcaId);
 }
 
 

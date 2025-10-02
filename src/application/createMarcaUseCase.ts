@@ -8,7 +8,7 @@ export class   CreateMarcaUseCase {
 
     async execute(marca: Marca) {
 
-        const MarcaMesmoNome =  this.MarcaRepository.findMesmoNome(marca.nome);
+        const MarcaMesmoNome =  await this.MarcaRepository.findMesmoNome(marca.nome);
 
         if (MarcaMesmoNome) {
             return console.log("Já existe uma marca cadastrada com esse nome.");

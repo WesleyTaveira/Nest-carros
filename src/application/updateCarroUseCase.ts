@@ -10,18 +10,25 @@ export class  UpdateCarroUseCase {
 
 
     async execute(carro: Carro) {
-        const CarroExiste = this.CarroRepository.find(carro.id);
+        const CarroExiste = await this.CarroRepository.find(carro.id);
 
         if(!CarroExiste) {
             return console.log("Carro não existente!")
-    }
-        const MarcaId = this.MarcaRepository.find(carro.marca.id);
+        }
+        
+        const MarcaId = await this.MarcaRepository.find(carro.marca.id);
 
         if(!MarcaId) {
             return console.log("Carro não encontrado!")
         }
 
-        const carroAtualizado = this.CarroRepository.update(carro);
+        CarroExiste.marca = carro.marca;
+
+        CarroExiste.placa = carro.placa;
+        CarroExiste.ano = carro.ano;
+        CarroExiste.modelo = carro.modelo;
+
+        const carroAtualizado = this.CarroRepository.update(CarroExiste);
 
         return carroAtualizado;
   }
