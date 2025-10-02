@@ -7,7 +7,7 @@ export class  DeleteCarroUseCase {
 
 
     async execute(id: number) {
-        const CarroExiste = this.CarroRepository.find(id);
+        const CarroExiste = await this.CarroRepository.find(id);
           
 
         if(!CarroExiste) {

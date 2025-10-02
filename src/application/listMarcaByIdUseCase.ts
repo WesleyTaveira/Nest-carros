@@ -7,7 +7,7 @@ export class  ListMarcaByIdUseCase {
 
 
     async execute(id: number) {
-      const marca = this.MarcaRepository.find(id);
+      const marca = await this.MarcaRepository.find(id);
 
       if (!marca) {
           return console.log("Marca não existente!")

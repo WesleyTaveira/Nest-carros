@@ -9,13 +9,14 @@ export class  UpdateMarcaUseCase {
 
 
     async execute(marca: Marca) {
-        const MarcaExiste = this.MarcaRepository.find(marca.id);
+        const MarcaExiste = await this.MarcaRepository.find(marca.id);
 
         if(!MarcaExiste) {
             return console.log("Marca não existente!")
     }
-        
-        const marcaAtualizada = this.MarcaRepository.update(marca);
+        MarcaExiste.nome = marca.nome;
+
+        const marcaAtualizada = this.MarcaRepository.update(MarcaExiste);
 
         return marcaAtualizada;
   }

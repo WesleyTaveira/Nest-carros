@@ -7,7 +7,7 @@ export class  DeleteMarcaUseCase {
 
 
     async execute(id: number) {
-        const MarcaExiste = this.MarcaRepository.find(id);
+        const MarcaExiste = await this.MarcaRepository.find(id);
           
 
         if(!MarcaExiste) {

@@ -3,9 +3,9 @@ import { Marca } from "../entity/Marca";
 
 export interface IMarcaRepository {
     create(marca: Marca): void;
-    find(id: number): Marca[];
-    findMesmoNome(nome: string): Marca[];
-    findAll(): Marca[];
-    update(marca: Marca): Marca[];
+    find(id: number): Promise<Marca | null>;
+    findMesmoNome(nome: string): Promise<Marca | null>;
+    findAll(): Promise<Marca[]>;
+    update(marca: Marca): Promise<Marca | null>;
     delete(id: number): void;
 }

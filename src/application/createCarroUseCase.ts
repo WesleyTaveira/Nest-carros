@@ -14,13 +14,13 @@ export class    CreateCarroUseCase {
 
         
 
-        const CarroMesmaPlaca =  this.CarroRepository.findMesmaPlaca(carro.placa);
+        const CarroMesmaPlaca =  await this.CarroRepository.findMesmaPlaca(carro.placa);
 
         if (CarroMesmaPlaca) {
             return console.log("Já existe um carro cadastrado com esta placa.");
         }
 
-        const MarcaExiste =  this.MarcaRepository.find(carro.marca.id);
+        const MarcaExiste =  await this.MarcaRepository.find(carro.marca.id);
 
         if (!MarcaExiste) {
             return console.log("Marca não encontrada.");
