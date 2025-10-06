@@ -1,8 +1,6 @@
-import {Controller, Get, Post, Put, Delete, HttpStatus, HttpException, Body, Param} from '@nestjs/common';
-import { CarroRepository } from 'src/infra/repository/carroRepository';
+import {Controller, Get, Post, Delete, HttpStatus, HttpException, Body, Param, Patch} from '@nestjs/common';
 import { CreateMarcaUseCase } from 'src/application/createMarcaUseCase';
-import { MarcaRepository } from 'src/infra/repository/marcaRepository';
-import { ListAllMarcasUseCase } from 'src/application/listAllMarcasUseCase';
+import { ListAllMarcasUseCase } from 'src/application/ListAllMarcasUseCase';
 import { ListMarcaByIdUseCase } from 'src/application/listMarcaByIdUseCase';
 import { UpdateMarcaUseCase } from 'src/application/updateMarcaUseCase';
 import { DeleteMarcaUseCase } from 'src/application/deleteMarcaUseCase';
@@ -10,15 +8,9 @@ import { DeleteMarcaUseCase } from 'src/application/deleteMarcaUseCase';
 
 @Controller('marca')
 export class    MarcaController {
-    private readonly repoCarro = new CarroRepository();
-    private readonly repoMarca = new MarcaRepository();
-    private readonly createMarcaUseCase = new CreateMarcaUseCase(this.repoMarca);
-    private readonly listAllMarcasUseCase = new ListAllMarcasUseCase(this.repoMarca);
-    private readonly listMarcaByIdUseCase = new ListMarcaByIdUseCase(this.repoMarca);
-    private readonly updateMarcaUseCase = new UpdateMarcaUseCase(this.repoMarca);
-    private readonly deleteMarcaUseCase = new DeleteMarcaUseCase(this.repoMarca);
-    
-
+    constructor(private readonly createMarcaUseCase: CreateMarcaUseCase, 
+                private readonly listAllMarcasUseCase:  ListAllMarcasUseCase, private readonly listMarcaByIdUseCase: ListMarcaByIdUseCase,
+                private readonly updateMarcaUseCase: UpdateMarcaUseCase, private readonly deleteMarcaUseCase: DeleteMarcaUseCase) {}
 
     @Post()
     async CreateMarca (@Body() body: any) {
@@ -37,8 +29,7 @@ export class    MarcaController {
             }
       
     } 
-
-    
+   
     @Get()
     async ListAllMarcas() {
         try {
@@ -47,17 +38,16 @@ export class    MarcaController {
                      data: carros 
                     };
         } catch (error) {
-                    throw new HttpException(
-                        { message: error.message || "Erro ao buscar marcas" },
-                        HttpStatus.BAD_REQUEST,
-                    )
-                }
+            throw new HttpException(
+                { message: error.message || "Erro ao buscar marcas" },
+                   HttpStatus.BAD_REQUEST,
+            )
+        }
     }
 
     @Get(':id')
-    async ListMarcaById(@Body() body: any) {
+    async ListMarcaById(@Param('id') id: number) {
         try {
-            const {id} = body;
             
             if (!id) {
                 return { statusCode: 400,
@@ -66,7 +56,7 @@ export class    MarcaController {
                 }
             };
 
-            const carro = await this.listMarcaByIdUseCase.execute(body);
+            const carro = await this.listMarcaByIdUseCase.execute(id);
             return { statusCode: 200,
                     data: carro 
             };
@@ -79,10 +69,9 @@ export class    MarcaController {
         }
     }
 
-    @Put(':id')
-     async UpdateMarca( @Body() body: any, @Param() param: any  ){
+    @Patch(':id')
+     async UpdateMarca( @Body() body: any, @Param('id') id: number  ){
             try {
-                const {id} = param;
                 
                 if (!id) {
                     return { statusCode: 400,
@@ -91,7 +80,7 @@ export class    MarcaController {
                     }
                 };
     
-                const carro = await this.updateMarcaUseCase.execute(body);
+                const carro = await this.updateMarcaUseCase.execute(id, body);
                 return { statusCode: 200,
                         data: carro 
                 };
@@ -105,9 +94,8 @@ export class    MarcaController {
         }
 
         @Delete(':id')
-        async DeleteMarca( @Body() body: any, @Param() param: any  ){
+        async DeleteMarca( @Param('id') id: number  ) {
                try {
-                   const {id} = param;
                    
                    if (!id) {
                        return { statusCode: 400,
@@ -115,8 +103,8 @@ export class    MarcaController {
                            message: "Id é obrigatório!" 
                        }
                    };
-       
-                   const carro = await this.deleteMarcaUseCase.execute(body);
+
+                   const carro = await this.deleteMarcaUseCase.execute(id);
                    return { statusCode: 200,
                            data: carro 
                    };
@@ -127,5 +115,5 @@ export class    MarcaController {
                )
        
                }
-           }
+        }
 }

@@ -1,9 +1,10 @@
-import { IMarcaRepository } from "src/domain/contracts/IMarcaRepository";
+import { Injectable } from "@nestjs/common";
+import { MarcaRepository } from "src/infra/repository/marcaRepository";
 
 
-
+@Injectable()
 export class  DeleteMarcaUseCase {
-    constructor(private readonly MarcaRepository: IMarcaRepository) {}
+    constructor(private readonly MarcaRepository: MarcaRepository) {}
 
 
     async execute(id: number) {
@@ -11,7 +12,7 @@ export class  DeleteMarcaUseCase {
           
 
         if(!MarcaExiste) {
-            return console.log("Marca não existente!")
+            throw new Error("Marca não existente!")
         }
 
         this.MarcaRepository.delete(id);

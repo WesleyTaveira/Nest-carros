@@ -1,9 +1,10 @@
-import { IMarcaRepository } from "src/domain/contracts/IMarcaRepository";
+import { Injectable} from "@nestjs/common";
+import { MarcaRepository } from "src/infra/repository/marcaRepository"; 
 import { Marca } from "src/domain/entity/Marca";
 
-
+@Injectable()
 export class   CreateMarcaUseCase {
-    constructor( private readonly MarcaRepository: IMarcaRepository) {}
+    constructor( private readonly MarcaRepository: MarcaRepository) {}
 
 
     async execute(marca: Marca) {
@@ -11,7 +12,7 @@ export class   CreateMarcaUseCase {
         const MarcaMesmoNome =  await this.MarcaRepository.findMesmoNome(marca.nome);
 
         if (MarcaMesmoNome) {
-            return console.log("Já existe uma marca cadastrada com esse nome.");
+            throw new Error("Já existe uma marca cadastrada com esse nome.");
 
        
         }
