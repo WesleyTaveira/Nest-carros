@@ -1,13 +1,14 @@
-import { IMarcaRepository } from "src/domain/contracts/IMarcaRepository";
+import { Injectable } from "@nestjs/common";
+import { MarcaRepository } from "src/infra/repository/marcaRepository";
 
 
-
+@Injectable()
 export class  ListAllMarcasUseCase {
-    constructor(private readonly MarcaRepository: IMarcaRepository) {}
+    constructor(private readonly marcaRepository: MarcaRepository) {}
 
 
     async execute() {
-        const marcas = this.MarcaRepository.findAll();
+        const marcas = this.marcaRepository.findAll();
         
         return console.log(marcas);
         

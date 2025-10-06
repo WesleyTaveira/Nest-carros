@@ -2,10 +2,10 @@ import { Carro } from "../entity/Carro";
 
 
 export interface ICarroRepository {
-    create(carro: Carro): void;
+    create(carro: Carro): Promise<void>;
     find(id: number): Promise<Carro | null>;
     findMesmaPlaca(placa: string): Promise<Carro | null>;
     findAll(): Promise<Carro[]>;
-    update(carro: Carro): Promise<Carro | null>;
-    delete(id: number): void;
+    update(id: number, carro: Carro): Promise<Carro | null>;
+    delete(id: number): Promise<void>;
 }

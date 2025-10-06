@@ -1,25 +1,26 @@
-import { IMarcaRepository } from "src/domain/contracts/IMarcaRepository";
-import { ICarroRepository } from "src/domain/contracts/ICarroRepository";
+import { CarroRepository} from "src/infra/repository/carroRepository";
+import { MarcaRepository } from "src/infra/repository/marcaRepository";
 import { Carro } from "src/domain/entity/Carro";
+import { Injectable, NotFoundException } from "@nestjs/common";
 
 
 
-
+@Injectable()
 export class  UpdateCarroUseCase {
-    constructor(private readonly CarroRepository: ICarroRepository, private readonly MarcaRepository: IMarcaRepository) {}
+    constructor(private readonly carroRepository: CarroRepository, private readonly marcaRepository: MarcaRepository) {}
 
 
-    async execute(carro: Carro) {
-        const CarroExiste = await this.CarroRepository.find(carro.id);
+    async execute(id: number, carro: Carro) {
+        const CarroExiste = await this.carroRepository.find(id);
 
         if(!CarroExiste) {
-            return console.log("Carro não existente!")
+            throw new Error('Carro não existente!')
         }
         
-        const MarcaId = await this.MarcaRepository.find(carro.marca.id);
+        const MarcaId = await this.marcaRepository.find(carro.marca.id);
 
         if(!MarcaId) {
-            return console.log("Carro não encontrado!")
+            throw new NotFoundException('Carro não encontrado')
         }
 
         CarroExiste.marca = carro.marca;
@@ -28,7 +29,7 @@ export class  UpdateCarroUseCase {
         CarroExiste.ano = carro.ano;
         CarroExiste.modelo = carro.modelo;
 
-        const carroAtualizado = this.CarroRepository.update(CarroExiste);
+        const carroAtualizado = this.carroRepository.update(id, CarroExiste); 
 
         return carroAtualizado;
   }

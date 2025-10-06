@@ -1,20 +1,21 @@
-import { ICarroRepository } from "src/domain/contracts/ICarroRepository";
+import { Injectable } from "@nestjs/common";
+import { CarroRepository } from "src/infra/repository/carroRepository";
 
 
-
+@Injectable()
 export class  DeleteCarroUseCase {
-    constructor(private readonly CarroRepository: ICarroRepository) {}
+    constructor(private readonly carroRepository: CarroRepository) {}
 
 
     async execute(id: number) {
-        const CarroExiste = await this.CarroRepository.find(id);
+        const CarroExiste = await this.carroRepository.find(id);
           
 
         if(!CarroExiste) {
-            return console.log("Carro não existente!")
+            throw new Error("Carro não existente!")
         }
 
-        this.CarroRepository.delete(id);
+        this.carroRepository.delete(id);
         return console.log("Carro deletado!")
         
         

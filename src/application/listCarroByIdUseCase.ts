@@ -1,16 +1,16 @@
-import { ICarroRepository } from "src/domain/contracts/ICarroRepository";
+import { Injectable } from "@nestjs/common";
+import { CarroRepository } from "src/infra/repository/carroRepository";
 
 
-
+@Injectable()
 export class  ListCarroByIdUseCase {
-    constructor(private readonly CarroRepository: ICarroRepository) {}
-
-
+    constructor(private readonly carroRepository: CarroRepository) {}
+    
     async execute(id: number) {
-      const carro = await this.CarroRepository.find(id);
+      const carro = await this.carroRepository.find(id);
 
       if (!carro) {
-          return console.log("Carro não existente!")
+          throw new Error("Carro não existente!")
       }
         
     return console.log(carro);

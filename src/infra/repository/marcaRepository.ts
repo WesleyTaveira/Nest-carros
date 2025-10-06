@@ -6,33 +6,34 @@ import { AppDataSource } from "../database/data-source";
 export class MarcaRepository implements IMarcaRepository{
     MarcaRepo = AppDataSource.getRepository(Marca);
 
-create(marca: Marca): void {
-    this.MarcaRepo.save(marca);
+async create(marca: Marca): Promise<void> {
+    await this.MarcaRepo.save(marca);
 }
 
-find(marcaId: number): Promise<Marca | null> {
+async find(marcaId: number): Promise<Marca | null> {
      return this.MarcaRepo.findOneBy({
         id: marcaId
     });
 }
 
-findMesmoNome(marcaNome: string): Promise<Marca | null> {
+async findMesmoNome(marcaNome: string): Promise<Marca | null> {
     return this.MarcaRepo.findOneBy({
         nome: marcaNome
     });
 }
 
-findAll(): Promise<Marca[]> {
+async findAll(): Promise<Marca[]> {
     return this.MarcaRepo.find({});
 
 }
 
-update(marca: Marca): Promise<Marca | null> {
-    return this.MarcaRepo.save(marca);
+async update(id: number, marca: Marca): Promise<Marca | null> {
+    await this.MarcaRepo.update(id, marca);
+    return this.find(id);
 }
 
-delete(marcaId: number): void {
-    this.MarcaRepo.delete(marcaId);
+async delete(marcaId: number): Promise<void> {
+    await this.MarcaRepo.delete(marcaId);
 }
 
 

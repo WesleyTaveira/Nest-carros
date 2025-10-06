@@ -1,8 +1,6 @@
-import {Controller, Get, Post, Put, Delete, HttpException,HttpStatus, Body, Param} from '@nestjs/common';
-import { CarroRepository } from 'src/infra/repository/carroRepository';
-import { CreateCarroUseCase } from 'src/application/createCarroUseCase';
-import { MarcaRepository } from 'src/infra/repository/marcaRepository';
-import { ListAllCarrosUseCase } from 'src/application/listAllCarrosUseCase';
+import {Controller, Get, Post, Delete, HttpException,HttpStatus, Body, Param, Patch} from '@nestjs/common';
+import { CreateCarroUseCase } from 'src/application/CreateCarroUseCase';
+import { ListAllCarrosUseCase } from 'src/application/ListAllCarrosUseCase';
 import { ListCarroByIdUseCase } from 'src/application/listCarroByIdUseCase';
 import { UpdateCarroUseCase } from 'src/application/updateCarroUseCase';
 import { DeleteCarroUseCase } from 'src/application/deleteCarroUseCase';
@@ -11,13 +9,9 @@ import { DeleteCarroUseCase } from 'src/application/deleteCarroUseCase';
 
 @Controller('carros')
 export class CarroController {
-    private readonly repoCarro = new CarroRepository();
-    private readonly repoMarca = new MarcaRepository();
-    private readonly createCarroUseCase = new CreateCarroUseCase(this.repoCarro, this.repoMarca);
-    private readonly listAllCarrosUseCase = new ListAllCarrosUseCase(this.repoCarro);
-    private readonly listCarroByIdUseCase = new ListCarroByIdUseCase(this.repoCarro);
-    private readonly updateCarroUseCase = new UpdateCarroUseCase(this.repoCarro, this.repoMarca);
-    private readonly deleteCarroUseCase = new DeleteCarroUseCase(this.repoCarro);
+    constructor(private readonly createCarroUseCase: CreateCarroUseCase, 
+                private readonly listAllCarrosUseCase:  ListAllCarrosUseCase, private readonly listCarroByIdUseCase: ListCarroByIdUseCase,
+                private readonly updateCarroUseCase: UpdateCarroUseCase, private readonly deleteCarroUseCase: DeleteCarroUseCase) {}
 
 
 
@@ -67,10 +61,8 @@ export class CarroController {
 
 }
     @Get(':id')
-    async ListCarroById(@Body() body: any) {
-        try {
-            const {id} = body;
-            
+    async ListCarroById(@Param('id') id: number) {
+        try {   
             if (!id) {
                 return { statusCode: 400,
                     error: true,
@@ -78,7 +70,7 @@ export class CarroController {
                 }
             };
 
-            const carro = await this.listCarroByIdUseCase.execute(body);
+            const carro = await this.listCarroByIdUseCase.execute(id);
             return { statusCode: 200,
                     data: carro 
             };
@@ -91,10 +83,9 @@ export class CarroController {
             }
     }
 
-    @Put(':id')
-    async UpdateCarro( @Body() body: any, @Param() param: any  ){
+    @Patch(':id')
+    async UpdateCarro( @Body() body: any, @Param('id') id: number  ){
         try {
-            const {id} = param;
             
             if (!id) {
                 return { statusCode: 400,
@@ -103,7 +94,7 @@ export class CarroController {
                 }
             };
 
-            const carro = await this.updateCarroUseCase.execute(body);
+            const carro = await this.updateCarroUseCase.execute(id, body);
             return { statusCode: 200,
                     data: carro 
             };
@@ -117,10 +108,8 @@ export class CarroController {
     }
 
     @Delete(':id')
-    async DeleteCarro( @Param() param: any  ){
-        try {
-            const {id} = param;
-            
+    async DeleteCarro( @Param('id') id: number  ) {
+        try {  
             if (!id) {
                 return { statusCode: 400,
                     error: true,

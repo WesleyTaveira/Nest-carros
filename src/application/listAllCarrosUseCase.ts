@@ -1,13 +1,14 @@
-import { ICarroRepository } from "src/domain/contracts/ICarroRepository";
+import { Injectable } from "@nestjs/common";
+import { CarroRepository } from "src/infra/repository/carroRepository";
 
 
-
+@Injectable()
 export class  ListAllCarrosUseCase {
-    constructor(private readonly CarroRepository: ICarroRepository) {}
+    constructor(private readonly carroRepository: CarroRepository) {}
 
 
     async execute() {
-        const carros = this.CarroRepository.findAll();
+        const carros = this.carroRepository.findAll();
         
         return console.log(carros);
         
