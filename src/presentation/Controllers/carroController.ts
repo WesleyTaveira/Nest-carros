@@ -14,8 +14,6 @@ export class CarroController {
                 private readonly updateCarroUseCase: UpdateCarroUseCase, private readonly deleteCarroUseCase: DeleteCarroUseCase) {}
 
 
-
-
     
     @Post()
     async CreateCarro(@Body() body: any) {
