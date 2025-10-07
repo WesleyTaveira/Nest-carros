@@ -1,10 +1,15 @@
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
 import { IMarcaRepository } from "src/domain/contracts/IMarcaRepository";
 import { Marca } from "src/domain/entity/Marca";
-import { AppDataSource } from "../database/data-source";
 
-
+@Injectable()
 export class MarcaRepository implements IMarcaRepository{
-    MarcaRepo = AppDataSource.getRepository(Marca);
+     constructor(
+        @InjectRepository(Marca)
+        private readonly MarcaRepo: Repository<Marca>,
+      ) {}
 
 async create(marca: Marca): Promise<void> {
     await this.MarcaRepo.save(marca);

@@ -12,4 +12,4 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install --omit=dev
 COPY --from=builder /usr/src/app/dist ./dist
-CMD [ "node", "dist/server.js" ]
+CMD [ "node", "dist/main.js" ]

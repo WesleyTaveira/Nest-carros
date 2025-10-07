@@ -1,10 +1,17 @@
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
 import { ICarroRepository } from "src/domain/contracts/ICarroRepository";
 import { Carro } from "src/domain/entity/Carro";
-import { AppDataSource } from "../database/data-source";
 
 
+
+@Injectable()
 export class CarroRepository implements ICarroRepository{
-    CarroRepo = AppDataSource.getRepository(Carro);
+    constructor(
+    @InjectRepository(Carro)
+    private readonly CarroRepo: Repository<Carro>,
+  ) {}
 
 async create(carro: Carro): Promise<void> {
     await this.CarroRepo.save(carro);

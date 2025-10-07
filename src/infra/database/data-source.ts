@@ -1,7 +1,9 @@
 import "dotenv/config";
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import path from "path";
+import { Carro } from "../entities/Carro";
+import { Marca } from "../entities/Marca";
+
 
 const dbHost = process.env.DB_HOST;
 const dbPort = process.env.DB_PORT;
@@ -25,9 +27,7 @@ export const AppDataSource = new DataSource({
     synchronize: true,
     logging: false,
     
-    entities: [
-        path.join(__dirname, 'model', '**', '*.{ts,js}')
-    ],
+    entities: [ Carro, Marca],
     migrations: [],
     subscribers: [],
     
