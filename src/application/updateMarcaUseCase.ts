@@ -13,7 +13,7 @@ export class  UpdateMarcaUseCase {
         const MarcaExiste = await this.marcaRepository.find(id);
 
         if(!MarcaExiste) {
-            throw new NotFoundException('Marca não encontrada')
+            throw new NotFoundException('Marca não encontrada.')
     }
         MarcaExiste.nome = marca.nome;
 

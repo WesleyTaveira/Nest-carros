@@ -1,13 +1,13 @@
 import {Controller, Get, Post, Delete, HttpStatus, HttpException, Body, Param, Patch} from '@nestjs/common';
 import { CreateMarcaUseCase } from 'src/application/createMarcaUseCase';
-import { ListAllMarcasUseCase } from 'src/application/ListAllMarcasUseCase';
+import { ListAllMarcasUseCase } from 'src/application/listAllMarcasUseCase';
 import { ListMarcaByIdUseCase } from 'src/application/listMarcaByIdUseCase';
 import { UpdateMarcaUseCase } from 'src/application/updateMarcaUseCase';
 import { DeleteMarcaUseCase } from 'src/application/deleteMarcaUseCase';
 
 
-@Controller('marca')
-export class    MarcaController {
+@Controller('marcas')
+export class MarcaController {
     constructor(private readonly createMarcaUseCase: CreateMarcaUseCase, 
                 private readonly listAllMarcasUseCase:  ListAllMarcasUseCase, private readonly listMarcaByIdUseCase: ListMarcaByIdUseCase,
                 private readonly updateMarcaUseCase: UpdateMarcaUseCase, private readonly deleteMarcaUseCase: DeleteMarcaUseCase) {}
@@ -17,13 +17,13 @@ export class    MarcaController {
         try { 
             const marca = await this.createMarcaUseCase.execute(body);
             return { statusCode: 201,
-                     message: "Carro salvo na marca",
+                     message: "Marca salva no banco.",
                      data: marca
                     };
     
             } catch (error) {
                 throw new HttpException(
-                    { message: error.message || "Erro ao salvar marca" },
+                    { message: error.message || "Erro ao salvar marca." },
                     HttpStatus.BAD_REQUEST,
                 )
             }
@@ -39,7 +39,7 @@ export class    MarcaController {
                     };
         } catch (error) {
             throw new HttpException(
-                { message: error.message || "Erro ao buscar marcas" },
+                { message: error.message || "Erro ao buscar marcas." },
                    HttpStatus.BAD_REQUEST,
             )
         }
@@ -62,7 +62,7 @@ export class    MarcaController {
             };
     } catch (error) {
         throw new HttpException(
-            { message: error.message || "Erro ao buscar marca" },
+            { message: error.message || "Erro ao buscar marca." },
             HttpStatus.BAD_REQUEST,
         )
 
@@ -86,7 +86,7 @@ export class    MarcaController {
                 };
         } catch (error) {
             throw new HttpException(
-                { message: error.message || "Erro ao atualizar marca" },
+                { message: error.message || "Erro ao atualizar marca." },
                 HttpStatus.BAD_REQUEST,
             )
     
@@ -110,7 +110,7 @@ export class    MarcaController {
                    };
            } catch (error) {
                throw new HttpException(
-                   { message: error.message || "Erro ao deletar marca" },
+                   { message: error.message || "Erro ao deletar marca." },
                    HttpStatus.BAD_REQUEST,
                )
        

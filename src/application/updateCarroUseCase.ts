@@ -20,7 +20,7 @@ export class  UpdateCarroUseCase {
         const MarcaId = await this.marcaRepository.find(carro.marca.id);
 
         if(!MarcaId) {
-            throw new NotFoundException('Carro não encontrado')
+            throw new NotFoundException('Carro não encontrado.')
         }
 
         CarroExiste.marca = carro.marca;
