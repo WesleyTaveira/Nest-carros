@@ -1,9 +1,10 @@
 import {Controller, Get, Post, Delete, HttpException,HttpStatus, Body, Param, Patch} from '@nestjs/common';
-import { CreateCarroUseCase } from 'src/application/CreateCarroUseCase';
-import { ListAllCarrosUseCase } from 'src/application/ListAllCarrosUseCase';
+import { CreateCarroUseCase } from 'src/application/createCarroUseCase';
+import { ListAllCarrosUseCase } from 'src/application/listAllCarrosUseCase';
 import { ListCarroByIdUseCase } from 'src/application/listCarroByIdUseCase';
 import { UpdateCarroUseCase } from 'src/application/updateCarroUseCase';
 import { DeleteCarroUseCase } from 'src/application/deleteCarroUseCase';
+
 
 
 
@@ -25,19 +26,19 @@ export class CarroController {
             if (!placa || !ano || !modelo || !marca) {
                 return { statusCode: 400,
                          error: "Dados obrigatórios não fornecidos.",
-                         message: "placa, ano, modelo e marca são obrigatórios"
+                         message: "placa, ano, modelo e marca são obrigatórios."
                         }
             }
 
             const carro = await this.createCarroUseCase.execute(body);
             return { statusCode: 201,
-                     message: "Carro salvo no banco",
+                     message: "Carro salvo no banco.",
                      data: carro 
             };
 
         } catch (error) {
             throw new HttpException(
-                { message: error.message || "Erro ao salvar carro" },
+                { message: error.message || "Erro ao salvar carro." },
                 HttpStatus.BAD_REQUEST,
             )
         }  
@@ -52,7 +53,7 @@ export class CarroController {
             };
         } catch (error) {
             throw new HttpException(
-                { message: error.message || "Erro ao buscar carros" },
+                { message: error.message || "Erro ao buscar carros." },
                 HttpStatus.BAD_REQUEST,
             )
     }
@@ -74,7 +75,7 @@ export class CarroController {
             };
     } catch (error) {
         throw new HttpException(
-            { message: error.message || "Erro ao buscar carro" },
+            { message: error.message || "Erro ao buscar carro." },
             HttpStatus.BAD_REQUEST,
         )
 
@@ -98,7 +99,7 @@ export class CarroController {
             };
     } catch (error) {
         throw new HttpException(
-            { message: error.message || "Erro ao atualizar carro" },
+            { message: error.message || "Erro ao atualizar carro." },
             HttpStatus.BAD_REQUEST,
         )
 
@@ -121,7 +122,7 @@ export class CarroController {
             };
     } catch (error) {
         throw new HttpException(
-            { message: error.message || "Erro ao deletar carro" },
+            { message: error.message || "Erro ao deletar carro." },
             HttpStatus.BAD_REQUEST,
         )
 
