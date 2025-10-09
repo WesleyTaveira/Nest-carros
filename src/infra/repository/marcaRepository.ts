@@ -16,19 +16,19 @@ async create(marca: Marca): Promise<void> {
 }
 
 async find(marcaId: number): Promise<Marca | null> {
-     return this.MarcaRepo.findOneBy({
+     return await this.MarcaRepo.findOneBy({
         id: marcaId
     });
 }
 
 async findMesmoNome(marcaNome: string): Promise<Marca | null> {
-    return this.MarcaRepo.findOneBy({
+    return await this.MarcaRepo.findOneBy({
         nome: marcaNome
     });
 }
 
 async findAll(): Promise<Marca[]> {
-    return this.MarcaRepo.find({});
+    return await this.MarcaRepo.find({});
 
 }
 

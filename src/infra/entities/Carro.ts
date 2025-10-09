@@ -3,7 +3,7 @@ import { Marca } from "./Marca";
 
 @Entity()
 export class Carro{
-    @PrimaryGeneratedColumn("uuid")
+    @PrimaryGeneratedColumn()
     id!: number;
 
     @Column()
