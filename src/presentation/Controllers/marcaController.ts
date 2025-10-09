@@ -1,4 +1,4 @@
-import {Controller, Get, Post, Delete, HttpStatus, HttpException, Body, Param, Patch} from '@nestjs/common';
+import {Controller, Get, Post, Delete, HttpStatus, HttpException, HttpCode, Body, Param, Patch} from '@nestjs/common';
 import { CreateMarcaUseCase } from 'src/application/createMarcaUseCase';
 import { ListAllMarcasUseCase } from 'src/application/listAllMarcasUseCase';
 import { ListMarcaByIdUseCase } from 'src/application/listMarcaByIdUseCase';
@@ -13,10 +13,11 @@ export class MarcaController {
                 private readonly updateMarcaUseCase: UpdateMarcaUseCase, private readonly deleteMarcaUseCase: DeleteMarcaUseCase) {}
 
     @Post()
+    @HttpCode(HttpStatus.CREATED)
     async CreateMarca (@Body() body: any) {
         try { 
             const marca = await this.createMarcaUseCase.execute(body);
-            return { statusCode: 201,
+            return { statusCode: HttpStatus.CREATED,
                      message: "Marca salva no banco.",
                      data: marca
                     };
@@ -24,96 +25,100 @@ export class MarcaController {
             } catch (error) {
                 throw new HttpException(
                     { message: error.message || "Erro ao salvar marca." },
-                    HttpStatus.BAD_REQUEST,
+                    HttpStatus.INTERNAL_SERVER_ERROR,
                 )
             }
       
     } 
    
     @Get()
+    @HttpCode(HttpStatus.OK)
     async ListAllMarcas() {
         try {
             const carros = await this.listAllMarcasUseCase.execute();
-            return { statusCode: 200,
+            return { statusCode: HttpStatus.OK,
                      data: carros 
                     };
         } catch (error) {
             throw new HttpException(
                 { message: error.message || "Erro ao buscar marcas." },
-                   HttpStatus.BAD_REQUEST,
+                   HttpStatus.INTERNAL_SERVER_ERROR,
             )
         }
     }
 
     @Get(':id')
+    @HttpCode(HttpStatus.OK)
     async ListMarcaById(@Param('id') id: number) {
         try {
             
             if (!id) {
-                return { statusCode: 400,
+                return { statusCode: HttpStatus.BAD_REQUEST,
                     error: true,
                     message: "Id é obrigatório!" 
                 }
             };
 
             const carro = await this.listMarcaByIdUseCase.execute(id);
-            return { statusCode: 200,
+            return { statusCode: HttpStatus.OK,
                     data: carro 
             };
     } catch (error) {
         throw new HttpException(
             { message: error.message || "Erro ao buscar marca." },
-            HttpStatus.BAD_REQUEST,
+            HttpStatus.INTERNAL_SERVER_ERROR,
         )
 
         }
     }
 
     @Patch(':id')
-     async UpdateMarca( @Body() body: any, @Param('id') id: number  ){
+    @HttpCode(HttpStatus.OK)
+    async UpdateMarca( @Body() body: any, @Param('id') id: number  ){
             try {
                 
                 if (!id) {
-                    return { statusCode: 400,
+                    return { statusCode: HttpStatus.BAD_REQUEST,
                         error: true,
                         message: "Id é obrigatório!" 
                     }
                 };
     
                 const carro = await this.updateMarcaUseCase.execute(id, body);
-                return { statusCode: 200,
+                return { statusCode: HttpStatus.OK,
                         data: carro 
                 };
         } catch (error) {
             throw new HttpException(
                 { message: error.message || "Erro ao atualizar marca." },
-                HttpStatus.BAD_REQUEST,
+                HttpStatus.INTERNAL_SERVER_ERROR,
             )
     
             }
         }
 
         @Delete(':id')
+        @HttpCode(HttpStatus.OK)
         async DeleteMarca( @Param('id') id: number  ) {
                try {
                    
                    if (!id) {
-                       return { statusCode: 400,
+                       return { statusCode: HttpStatus.BAD_REQUEST,
                            error: true,
                            message: "Id é obrigatório!" 
                        }
                    };
 
-                   const carro = await this.deleteMarcaUseCase.execute(id);
-                   return { statusCode: 200,
-                           data: carro 
+                   this.deleteMarcaUseCase.execute(id);
+                   return { statusCode: HttpStatus.OK,
+                           message: "Marca deletada!"
                    };
            } catch (error) {
                throw new HttpException(
                    { message: error.message || "Erro ao deletar marca." },
-                   HttpStatus.BAD_REQUEST,
+                   HttpStatus.INTERNAL_SERVER_ERROR,
                )
        
-               }
+            }
         }
 }
