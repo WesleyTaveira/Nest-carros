@@ -10,7 +10,7 @@ export class  ListAllMarcasUseCase {
     async execute() {
         const marcas = this.marcaRepository.findAll();
         
-        return console.log(marcas);
+        return marcas;
         
   }
 }

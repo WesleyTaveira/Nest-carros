@@ -1,4 +1,4 @@
-import {Controller, Get, Post, Delete, HttpException,HttpStatus, Body, Param, Patch} from '@nestjs/common';
+import {Controller, Get, Post, Delete, HttpException,HttpStatus, Body, Param, Patch, HttpCode} from '@nestjs/common';
 import { CreateCarroUseCase } from 'src/application/createCarroUseCase';
 import { ListAllCarrosUseCase } from 'src/application/listAllCarrosUseCase';
 import { ListCarroByIdUseCase } from 'src/application/listCarroByIdUseCase';
@@ -17,21 +17,20 @@ export class CarroController {
 
     
     @Post()
+    @HttpCode(HttpStatus.CREATED)
     async CreateCarro(@Body() body: any) {
         try {
             const { placa, ano, modelo, marca } = body;
 
-            console.log("Dados recebidos:", { placa, ano, modelo, marca });
-
             if (!placa || !ano || !modelo || !marca) {
-                return { statusCode: 400,
+                return { statusCode: HttpStatus.BAD_REQUEST,
                          error: "Dados obrigatórios não fornecidos.",
                          message: "placa, ano, modelo e marca são obrigatórios."
                         }
             }
 
             const carro = await this.createCarroUseCase.execute(body);
-            return { statusCode: 201,
+            return { statusCode: HttpStatus.CREATED,
                      message: "Carro salvo no banco.",
                      data: carro 
             };
@@ -39,91 +38,95 @@ export class CarroController {
         } catch (error) {
             throw new HttpException(
                 { message: error.message || "Erro ao salvar carro." },
-                HttpStatus.BAD_REQUEST,
+                HttpStatus.INTERNAL_SERVER_ERROR,
             )
         }  
     } 
     
     @Get()
+    @HttpCode(HttpStatus.OK)
     async ListAllCarros() {
         try {
             const carros = await this.listAllCarrosUseCase.execute();
-            return { statusCode: 200,
+            return { statusCode: HttpStatus.OK,
                     data: carros 
             };
         } catch (error) {
             throw new HttpException(
                 { message: error.message || "Erro ao buscar carros." },
-                HttpStatus.BAD_REQUEST,
+                HttpStatus.INTERNAL_SERVER_ERROR,
             )
     }
 
 }
     @Get(':id')
+    @HttpCode(HttpStatus.OK)
     async ListCarroById(@Param('id') id: number) {
         try {   
             if (!id) {
-                return { statusCode: 400,
+                return { statusCode: HttpStatus.BAD_REQUEST,
                     error: true,
                     message: "Id é obrigatório!" 
                 }
             };
 
             const carro = await this.listCarroByIdUseCase.execute(id);
-            return { statusCode: 200,
+            return { statusCode: HttpStatus.OK,
                     data: carro 
             };
     } catch (error) {
         throw new HttpException(
             { message: error.message || "Erro ao buscar carro." },
-            HttpStatus.BAD_REQUEST,
+            HttpStatus.INTERNAL_SERVER_ERROR,
         )
 
             }
     }
 
     @Patch(':id')
+    @HttpCode(HttpStatus.OK)
     async UpdateCarro( @Body() body: any, @Param('id') id: number  ){
         try {
             
             if (!id) {
-                return { statusCode: 400,
+                return { statusCode: HttpStatus.BAD_REQUEST,
                     error: true,
                     message: "Id é obrigatório!" 
                 }
             };
 
             const carro = await this.updateCarroUseCase.execute(id, body);
-            return { statusCode: 200,
+            return { statusCode: HttpStatus.OK,
                     data: carro 
             };
     } catch (error) {
         throw new HttpException(
             { message: error.message || "Erro ao atualizar carro." },
-            HttpStatus.BAD_REQUEST,
+            HttpStatus.INTERNAL_SERVER_ERROR,
         )
 
             }
     }
 
     @Delete(':id')
+    @HttpCode(HttpStatus.OK)
     async DeleteCarro( @Param('id') id: number  ) {
         try {  
             if (!id) {
-                return { statusCode: 400,
+                return { statusCode: HttpStatus.BAD_REQUEST,
                     error: true,
                     message: "Id é obrigatório!" 
                 }
             };
-
-            const carro = await this.deleteCarroUseCase.execute(id);
-            return { statusCode: 200,
-                    data: carro 
+            
+            this.deleteCarroUseCase.execute(id);
+            return { statusCode: HttpStatus.OK,
+                    message: "Carro deletado!"
             };
     } catch (error) {
         throw new HttpException(
             { message: error.message || "Erro ao deletar carro." },
-            HttpStatus.BAD_REQUEST,
+            HttpStatus.INTERNAL_SERVER_ERROR,
         )
 
             }

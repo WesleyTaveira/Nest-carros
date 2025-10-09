@@ -15,8 +15,8 @@ export class  DeleteMarcaUseCase {
             throw new Error("Marca não existente!")
         }
 
-        this.MarcaRepository.delete(id);
-        return console.log("Marca deletada!")
+        return this.MarcaRepository.delete(id);
+         
         
         
   }

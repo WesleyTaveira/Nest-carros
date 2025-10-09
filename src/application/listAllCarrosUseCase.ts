@@ -10,7 +10,7 @@ export class  ListAllCarrosUseCase {
     async execute() {
         const carros = this.carroRepository.findAll();
         
-        return console.log(carros);
+        return carros;
         
   }
 }

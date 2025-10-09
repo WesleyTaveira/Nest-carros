@@ -15,8 +15,7 @@ export class  DeleteCarroUseCase {
             throw new Error("Carro não existente!")
         }
 
-        this.carroRepository.delete(id);
-        return console.log("Carro deletado!")
+        return this.carroRepository.delete(id);
         
         
   }
