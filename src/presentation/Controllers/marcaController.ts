@@ -109,7 +109,7 @@ export class MarcaController {
                        }
                    };
 
-                   this.deleteMarcaUseCase.execute(id);
+                   await this.deleteMarcaUseCase.execute(id);
                    return { statusCode: HttpStatus.OK,
                            message: "Marca deletada!"
                    };

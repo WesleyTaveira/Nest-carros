@@ -17,20 +17,26 @@ async create(carro: Carro): Promise<void> {
     await this.CarroRepo.save(carro);
 }
 
-async find(carroId: number): Promise<Carro | null> {
-    return this.CarroRepo.findOneBy({
-        id: carroId
-    });
+async find(id: number): Promise<Carro | null> {
+    return await this.CarroRepo.findOne({
+        where: { id },
+        relations: ['marca'],
+    })
+
+    
+
 }
 
 async findMesmaPlaca(carroPlaca: string): Promise<Carro | null> {
-        return this.CarroRepo.findOneBy({
+        return await this.CarroRepo.findOneBy({
         placa: carroPlaca
     });
 }
 
 async findAll(): Promise<Carro[]> {
-    return this.CarroRepo.find({});
+    return await this.CarroRepo.find({
+        relations: ['marca']
+    });
 
 }
 
@@ -41,7 +47,7 @@ async update(id: number, carro: Carro): Promise<Carro | null> {
 }
 
 async delete(carroId: number): Promise<void> {
-    this.CarroRepo.delete(carroId);
+    await this.CarroRepo.delete(carroId);
     
 }
 

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { CarroRepository } from "src/infra/repository/carroRepository";
 
 
@@ -7,13 +7,19 @@ export class  ListCarroByIdUseCase {
     constructor(private readonly carroRepository: CarroRepository) {}
     
     async execute(id: number) {
-      const carro = await this.carroRepository.find(id);
-
-      if (!carro) {
-          throw new Error("Carro não existente!")
-      }
+        // A validação de formato foi removida, pois não é responsabilidade do Use Case.
         
-    return console.log(carro);
+
+        //return 1;
+        // Esta é a regra de negócio: buscar o carro.
+        const carro = await this.carroRepository.find(id);
+
+        // Esta é a outra regra de negócio: o que fazer se não encontrar.
+        if (!carro) {
+            throw new NotFoundException(`Carro com o ID ${id} não encontrado.`);
+        }
+        
+        return carro;
         
   }
 }
