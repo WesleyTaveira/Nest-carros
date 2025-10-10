@@ -12,8 +12,8 @@ export class    CreateCarroUseCase {
 
 
     async execute(carro: Carro) {
-        if (carro.ano < 1900 || carro.ano > new Date().getFullYear() + 1) {
-             throw new Error("O ano deve ser um número válido entre 1900 e " + (new Date().getFullYear() + 1))
+        if (carro.ano < 1900 || carro.ano > new Date().getFullYear()) {
+             throw new Error("O ano deve ser um número válido entre 1900 e " + (new Date().getFullYear()))
         }
 
         

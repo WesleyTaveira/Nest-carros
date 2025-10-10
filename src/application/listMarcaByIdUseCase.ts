@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { MarcaRepository } from "src/infra/repository/marcaRepository";
 
 
@@ -6,15 +6,14 @@ import { MarcaRepository } from "src/infra/repository/marcaRepository";
 export class  ListMarcaByIdUseCase {
     constructor(private readonly MarcaRepository: MarcaRepository) {}
 
-
     async execute(id: number) {
       const marca = await this.MarcaRepository.find(id);
 
       if (!marca) {
-          throw new Error("Marca não existente!")
+          throw new NotFoundException(`Marca com o ID ${id} não encontrado.`);
       }
         
-    return console.log(marca);
+      return marca;
         
   }
 }

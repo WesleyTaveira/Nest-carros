@@ -15,9 +15,9 @@ export class  DeleteMarcaUseCase {
             throw new Error("Marca não existente!")
         }
 
-        return this.MarcaRepository.delete(id);
-         
         
+        await this.MarcaRepository.delete(id);
         
-  }
+        return { message: 'Marca deletada com sucesso.' };           
+    }
 }

@@ -84,7 +84,7 @@ export class CarroController {
 
     @Patch(':id')
     @HttpCode(HttpStatus.OK)
-    async UpdateCarro( @Body() body: any, @Param('id') id: number  ){
+    async UpdateCarro( @Body() body: any, @Param('id', ParseIntPipe) id: number  ){
         try {
 
         
@@ -103,7 +103,7 @@ export class CarroController {
 
     @Delete(':id')
     @HttpCode(HttpStatus.OK)
-    async DeleteCarro( @Param('id') id: number  ) {
+    async DeleteCarro( @Param('id', ParseIntPipe) id: number  ) {
         try {  
             
             
