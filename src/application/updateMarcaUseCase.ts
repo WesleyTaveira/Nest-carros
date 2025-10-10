@@ -7,25 +7,25 @@ export class  UpdateMarcaUseCase {
     constructor(private readonly marcaRepository: MarcaRepository) {}
 
 
-    async execute(id: number, dados: { nome?: string }) {
+    async execute(id: number, marca: { nome?: string }) {
         if (!id || isNaN(id)) {
           throw new BadRequestException('Id é obrigatório e deve ser numérico.');
         }
     
-        const marca = await this.marcaRepository.find(id);
-        if (!marca) {
+        const MarcaExiste = await this.marcaRepository.find(id);
+        if (!MarcaExiste) {
           throw new NotFoundException('Marca não encontrada.');
         }
     
-        if (dados.nome) {
-          const nomeEmUso = await this.marcaRepository.findMesmoNome(dados.nome);
+        if (marca.nome) {
+          const nomeEmUso = await this.marcaRepository.findMesmoNome(marca.nome);
           if (nomeEmUso && nomeEmUso.id !== id) {
-            throw new BadRequestException('Já existe uma marca com esse nome.');
+            throw new BadRequestException('Já existe uma MarcaExiste com esse nome.');
           }
-          marca.nome = dados.nome;
+          MarcaExiste.nome = marca.nome;
         }
     
-        const marcaAtualizada = await this.marcaRepository.update(id, marca);
+        const marcaAtualizada = await this.marcaRepository.update(id, MarcaExiste);
         return marcaAtualizada;
       }
 }
