@@ -2,7 +2,7 @@ import { Marca } from "../entity/Marca";
 
 
 export interface IMarcaRepository {
-    create(marca: Marca): Promise<void>;
+    create(marca: Marca): Promise<Marca>;
     find(id: number): Promise<Marca | null>;
     findMesmoNome(nome: string): Promise<Marca | null>;
     findAll(): Promise<Marca[]>;
