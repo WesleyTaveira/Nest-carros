@@ -3,7 +3,7 @@ import { MarcaRepository } from "src/infra/repository/marcaRepository";
 import { Marca } from "src/domain/entity/Marca";
 
 @Injectable()
-export class   CreateMarcaUseCase {
+export class  CreateMarcaUseCase {
     constructor( private readonly MarcaRepository: MarcaRepository) {}
 
 

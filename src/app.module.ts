@@ -4,8 +4,10 @@ import "dotenv/config";
 import "reflect-metadata";
 import { CarroModule } from './presentation/Modules/carroModule';
 import { MarcaModule } from './presentation/Modules/marcaModule';
+import { UsuarioModule } from './presentation/Modules/usuarioModule';
 import { Marca } from './infra/entities/Marca';
 import { Carro } from './infra/entities/Carro';
+import { Usuario } from './infra/entities/Usuario';
 
 const dbHost = process.env.DB_HOST;
 const dbPort = process.env.DB_PORT;
@@ -29,12 +31,13 @@ if (!dbHost || !dbPort || !dbUser || !dbPassword || !dbDatabase) {
     username: dbUser,   // Lê do ambiente
     password: dbPassword, // Lê do ambiente
     database: dbDatabase, // Lê do ambiente
-    entities: [Carro,Marca],
+    entities: [Carro,Marca,Usuario],
     synchronize: true,
     logging: false,
   }),
     CarroModule,
     MarcaModule,
+    UsuarioModule
 ],
 })
 export class AppModule {}
