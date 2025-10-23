@@ -34,4 +34,8 @@ async findMesmoEmail(userEmail: string): Promise<Usuario | null> {
 
 }
 
+async findAll(): Promise<Usuario[]> {
+    return await this.UserRepo.find({});
+}
+
 }

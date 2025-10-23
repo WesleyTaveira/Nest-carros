@@ -6,13 +6,15 @@ import { UsuarioController } from "../Controllers/usuarioController";
 
 import { CreateUsuarioUseCase } from "src/application/createUsuarioUseCase";
 import { DeleteUsuarioUseCase } from "src/application/deleteUsuarioUseCase";
+import { ListAllUsuariosUseCase } from "src/application/listAllUsuariosUseCase";
 
 @Module({
     imports: [TypeOrmModule.forFeature([Usuario])], 
     providers: [
         UsuarioRepository,
         CreateUsuarioUseCase,
-        DeleteUsuarioUseCase
+        DeleteUsuarioUseCase,
+        ListAllUsuariosUseCase
     ],
     controllers: [UsuarioController],
 })

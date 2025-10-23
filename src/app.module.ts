@@ -40,4 +40,5 @@ if (!dbHost || !dbPort || !dbUser || !dbPassword || !dbDatabase) {
     UsuarioModule
 ],
 })
+
 export class AppModule {}

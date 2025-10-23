@@ -1,10 +1,11 @@
-import {Controller, Post, Delete, HttpException,HttpStatus, Body, Param, HttpCode, ParseIntPipe} from '@nestjs/common';
+import {Controller, Post, Delete, Get, HttpException, HttpStatus, Body, Param, HttpCode, ParseIntPipe} from '@nestjs/common';
 import { CreateUsuarioUseCase } from 'src/application/createUsuarioUseCase';
 import { DeleteUsuarioUseCase } from 'src/application/deleteUsuarioUseCase';
+import { ListAllUsuariosUseCase } from 'src/application/listAllUsuariosUseCase';
 
 @Controller('usuarios')
 export class UsuarioController {
-    constructor(private readonly createUsuarioUseCase: CreateUsuarioUseCase, 
+    constructor(private readonly createUsuarioUseCase: CreateUsuarioUseCase, private readonly listAllUsuariosUseCase: ListAllUsuariosUseCase ,
                 private readonly deleteUsuarioUseCase: DeleteUsuarioUseCase) {}
 
 
@@ -35,6 +36,24 @@ export class UsuarioController {
             )
         }  
     }
+
+    @Get()
+        @HttpCode(HttpStatus.OK)
+        async ListAllUsuarios() {
+            try {
+    
+                const usuarios = await this.listAllUsuariosUseCase.execute();
+                return { statusCode: HttpStatus.OK,
+                        data: usuarios 
+                };
+            } catch (error) {
+                throw new HttpException(
+                    { message: error.message || "Erro ao buscar usuarios." },
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+            )
+        }
+    
+    } 
 
     @Delete(':id')
     @HttpCode(HttpStatus.OK)
