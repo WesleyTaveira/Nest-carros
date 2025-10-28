@@ -5,6 +5,7 @@ import "reflect-metadata";
 import { CarroModule } from './presentation/Modules/carroModule';
 import { MarcaModule } from './presentation/Modules/marcaModule';
 import { UsuarioModule } from './presentation/Modules/usuarioModule';
+import { AuthModule } from './auth/authModule';
 import { Marca } from './infra/entities/Marca';
 import { Carro } from './infra/entities/Carro';
 import { Usuario } from './infra/entities/Usuario';
@@ -37,7 +38,8 @@ if (!dbHost || !dbPort || !dbUser || !dbPassword || !dbDatabase) {
   }),
     CarroModule,
     MarcaModule,
-    UsuarioModule
+    UsuarioModule,
+    AuthModule
 ],
 })
 
