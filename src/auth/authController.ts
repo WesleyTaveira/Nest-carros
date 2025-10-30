@@ -6,7 +6,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  async login(@Body() body: any) {
+  async login(@Body() body: { email: string; senha: string }) {
     const { email, senha } = body;
 
     if (!email || !senha) {

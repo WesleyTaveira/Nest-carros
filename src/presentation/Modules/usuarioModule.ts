@@ -17,6 +17,7 @@ import { ListAllUsuariosUseCase } from "src/application/listAllUsuariosUseCase";
         ListAllUsuariosUseCase
     ],
     controllers: [UsuarioController],
+    exports: [UsuarioRepository],
 })
 
 export class UsuarioModule {}
