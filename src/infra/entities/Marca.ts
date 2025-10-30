@@ -1,16 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
- import { Carro } from "./Carro"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Carro } from './Carro';
 
 @Entity()
 export class Marca {
-    @PrimaryGeneratedColumn()
-    id!: number;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @Column()
-    nome!: string;
+  @Column()
+  nome!: string;
 
-    @OneToMany(() => Carro, (carro: Carro) => carro.marca)
-    carros!: Carro[];
-
-    
+  @OneToMany(() => Carro, (carro: Carro) => carro.marca)
+  carros!: Carro[];
 }

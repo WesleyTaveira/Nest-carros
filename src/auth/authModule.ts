@@ -7,10 +7,9 @@ import { AuthService } from './authService';
 import { AuthController } from './authController';
 import { UsuarioRepository } from 'src/infra/repository/usuarioRepository';
 import { JwtStrategy } from './jwtStrategy';
-import "reflect-metadata";
+import 'reflect-metadata';
 
-const jwtSecret = 'carroswl'
-
+const jwtSecret = 'carroswl';
 
 @Module({
   imports: [
@@ -18,12 +17,11 @@ const jwtSecret = 'carroswl'
     PassportModule,
     JwtModule.register({
       secret: jwtSecret,
-      signOptions: { expiresIn: '1d'},
+      signOptions: { expiresIn: '1d' },
     }),
   ],
   controllers: [AuthController],
   providers: [AuthService, UsuarioRepository, JwtStrategy],
   exports: [AuthService],
 })
-
-export class AuthModule {};
+export class AuthModule {}
