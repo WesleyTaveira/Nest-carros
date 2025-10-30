@@ -34,7 +34,6 @@ if (!dbHost || !dbPort || !dbUser || !dbPassword || !dbDatabase) {
     database: dbDatabase, // Lê do ambiente
     entities: [Carro,Marca,Usuario],
     synchronize: true,
-    logging: false,
   }),
     CarroModule,
     MarcaModule,

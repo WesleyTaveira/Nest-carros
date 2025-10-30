@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { IUsuarioRepository } from "src/domain/contracts/IUsuarioRepository";
-import { Usuario } from "src/domain/entity/Usuario";
+import { Usuario } from "../entities/Usuario";
 import { Repository } from "typeorm";
 
 
@@ -29,7 +29,7 @@ async find(id: number): Promise<Usuario | null> {
 
 async findMesmoEmail(userEmail: string): Promise<Usuario | null> {
     return await this.UserRepo.findOneBy({
-        email: userEmail
+        email: userEmail.toLowerCase().trim()
     });
 
 }

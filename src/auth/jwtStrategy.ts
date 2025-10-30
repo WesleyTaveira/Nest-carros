@@ -8,7 +8,7 @@ const jwtSecret = 'carroswl';
 
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor() {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -19,5 +19,5 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
 
     async validate(payload: any) {
         return { userId: payload.sub, email: payload.email };
-      }
+    }
 }

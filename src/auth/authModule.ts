@@ -5,24 +5,24 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Usuario } from 'src/infra/entities/Usuario';
 import { AuthService } from './authService';
 import { AuthController } from './authController';
+import { UsuarioRepository } from 'src/infra/repository/usuarioRepository';
 import { JwtStrategy } from './jwtStrategy';
 import "reflect-metadata";
 
 const jwtSecret = 'carroswl'
-const jwtExpires = '1d'
 
 
 @Module({
   imports: [
-    PassportModule,
     TypeOrmModule.forFeature([Usuario]),
+    PassportModule,
     JwtModule.register({
       secret: jwtSecret,
-      signOptions: { expiresIn: jwtExpires},
+      signOptions: { expiresIn: '1d'},
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, UsuarioRepository, JwtStrategy],
   exports: [AuthService],
 })
 
