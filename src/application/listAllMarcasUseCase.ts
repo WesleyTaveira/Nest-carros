@@ -1,16 +1,13 @@
-import { Injectable } from "@nestjs/common";
-import { MarcaRepository } from "src/infra/repository/marcaRepository";
-
+import { Injectable } from '@nestjs/common';
+import { MarcaRepository } from 'src/infra/repository/marcaRepository';
 
 @Injectable()
-export class  ListAllMarcasUseCase {
-    constructor(private readonly marcaRepository: MarcaRepository) {}
+export class ListAllMarcasUseCase {
+  constructor(private readonly marcaRepository: MarcaRepository) {}
 
+  async execute() {
+    const marcas = this.marcaRepository.findAll();
 
-    async execute() {
-        const marcas = this.marcaRepository.findAll();
-        
-        return marcas;
-        
+    return marcas;
   }
 }

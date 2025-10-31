@@ -1,25 +1,26 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Usuario } from 'src/infra/entities/Usuario';
 import { UsuarioRepository } from 'src/infra/repository/usuarioRepository';
- 
+
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(Usuario)
     private readonly usuarioRepository: UsuarioRepository,
     private readonly jwtService: JwtService,
   ) {}
 
   async login(email: string, senha: string) {
-    const user = await this.usuarioRepository.findMesmoEmail(email);
+    const emailNormalizado = email.toLowerCase().trim();
+    const user = await this.usuarioRepository.findMesmoEmail(emailNormalizado);
+
     if (!user) {
       throw new UnauthorizedException('Email ou senha incorretos.');
     }
 
     const senhaValida = await bcrypt.compare(senha, user.senha);
+
     if (!senhaValida) {
       throw new UnauthorizedException('Email ou senha incorretos.');
     }
@@ -44,6 +45,4 @@ export class AuthService {
     }
     return null;
   }
-  
 }
- 
