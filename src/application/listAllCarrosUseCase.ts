@@ -6,7 +6,7 @@ export class ListAllCarrosUseCase {
   constructor(private readonly carroRepository: CarroRepository) {}
 
   async execute() {
-    const carros = this.carroRepository.findAll();
+    const carros = await this.carroRepository.findAll();
 
     return carros;
   }

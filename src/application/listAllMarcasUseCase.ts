@@ -6,7 +6,7 @@ export class ListAllMarcasUseCase {
   constructor(private readonly marcaRepository: MarcaRepository) {}
 
   async execute() {
-    const marcas = this.marcaRepository.findAll();
+    const marcas = await this.marcaRepository.findAll();
 
     return marcas;
   }
