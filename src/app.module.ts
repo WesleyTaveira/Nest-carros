@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 import 'dotenv/config';
 import 'reflect-metadata';
 import { CarroModule } from './presentation/Modules/carroModule';
@@ -42,10 +44,12 @@ if (!dbHost || !dbPort || !dbUser || !dbPassword || !dbDatabase) {
       entities: [Carro, Marca, Usuario],
       synchronize: true,
     }),
+    ThrottlerModule.forRoot([{ ttl: 60000, limit: 30 }]),
     CarroModule,
     MarcaModule,
     UsuarioModule,
     AuthModule,
   ],
+  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 export class AppModule {}

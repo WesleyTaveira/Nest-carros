@@ -6,8 +6,7 @@ export class ListAllUsuariosUseCase {
   constructor(private readonly usuarioRepository: UsuarioRepository) {}
 
   async execute() {
-    const usuarios = this.usuarioRepository.findAll();
-
-    return usuarios;
+    const usuarios = await this.usuarioRepository.findAll();
+    return usuarios.map(({ senha: _, ...semSenha }) => semSenha);
   }
 }

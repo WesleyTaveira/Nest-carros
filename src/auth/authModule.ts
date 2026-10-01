@@ -9,15 +9,16 @@ import { UsuarioRepository } from 'src/infra/repository/usuarioRepository';
 import { JwtStrategy } from './jwtStrategy';
 import 'reflect-metadata';
 
-const jwtSecret = 'carroswl';
-
 @Module({
   imports: [
     TypeOrmModule.forFeature([Usuario]),
     PassportModule,
-    JwtModule.register({
-      secret: jwtSecret,
-      signOptions: { expiresIn: '1d' },
+    JwtModule.registerAsync({
+      useFactory: () => {
+        const secret = process.env.JWT_SECRET;
+        if (!secret) throw new Error('JWT_SECRET não definido no ambiente.');
+        return { secret, signOptions: { expiresIn: '1d' } };
+      },
     }),
   ],
   controllers: [AuthController],
